@@ -29,7 +29,7 @@ category: {
 description:{
     type:String,
     required:true,
-    maxLength:20,
+    maxLength:100,
     trim:true
 },
 recorded_by: {

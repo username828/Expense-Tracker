@@ -47,12 +47,15 @@ const ExpenseList = () => {
 
   return (
     <div className="overflow-x-auto bg-white shadow-lg rounded-lg p-4">
-      <h2 className="text-2xl font-semibold mb-4 justify-center">Expenses</h2>
+      <h2 className="text-2xl text-center font-bold mb-4 justify-center">Expenses</h2>
       <div className="flex justify-center my-4">
         <button onClick={displayForm} className="bg-green-500 text-white py-2 px-6 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-200">
             Add Expense
         </button>
-    </div>
+        
+      </div>
+
+     {addExpense && <AddExpense/>}
 
       {filteredExpenses.length === 0 ? (
         <p>No expenses found</p>
@@ -62,7 +65,7 @@ const ExpenseList = () => {
         ))
       )}
 
-      {addExpense && <AddExpense/>}
+
     </div>
   );
 };

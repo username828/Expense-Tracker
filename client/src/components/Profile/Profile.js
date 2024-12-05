@@ -1,10 +1,41 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux'; 
+import axios from 'axios';
 
 const UserProfile = (props) => {
-  //const user = useSelector((state) => state.auth.user); // Access user from Redux store
-  const user=props.user
+  const user = props.user;
+  const id=user._id;
   const [isPasswordChange, setIsPasswordChange] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handlePasswordChange = async () => {
+    if (newPassword !== confirmPassword) {
+      setError('New passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/change-password',{
+        id,
+        currentPassword,
+        newPassword,
+        confirmPassword,
+      },
+      
+      {withCredentials:true},
+
+     );
+      console.log(response.data)
+      setSuccess(response.data.message);
+      setError('');
+    } catch (error) {
+      setError(error.response.data.message || 'An error occurred');
+      setSuccess('');
+    }
+  };
 
   if (!user) {
     return <div>Loading...</div>;
@@ -27,14 +58,41 @@ const UserProfile = (props) => {
 
       {isPasswordChange && (
         <div className="mt-4">
-          <label htmlFor="newPassword" className="block text-sm font-semibold text-gray-700">New Password</label>
+          <label htmlFor="currentPassword" className="block text-sm font-semibold text-gray-700">Current Password</label>
+          <input
+            type="password"
+            id="currentPassword"
+            className="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Enter current password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+          />
+
+          <label htmlFor="newPassword" className="block text-sm font-semibold text-gray-700 mt-4">New Password</label>
           <input
             type="password"
             id="newPassword"
             className="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             placeholder="Enter new password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
           />
+
+          <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mt-4">Confirm New Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            className="w-full p-3 mt-1 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Confirm new password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+          {success && <p className="text-green-500 mt-2">{success}</p>}
+
           <button
+            onClick={handlePasswordChange}
             className="w-full p-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 mt-4"
           >
             Update Password

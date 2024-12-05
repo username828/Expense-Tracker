@@ -23,7 +23,7 @@ const AddExpense = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/add-expense', expense, { withCredentials: true });
       if (response.status === 200) {
-        dispatch(addExpense(response.data));  // Update Redux store
+        dispatch(addExpense(expense));  // Update Redux store
       }
     } catch (error) {
       console.error('Error adding expense:', error);
@@ -31,7 +31,7 @@ const AddExpense = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+    <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10 mb-10">
       <h2 className="text-3xl font-bold text-center mb-6">Add Expense</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">

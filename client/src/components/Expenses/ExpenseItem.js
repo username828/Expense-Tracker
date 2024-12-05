@@ -9,7 +9,6 @@ const ExpenseItem = ({ expense }) => {
     //const [showForm,setShowForm]=useState(true);
     const expenseId=expense._id;
 
-
     function showUpdate(){
         setUpdate(prevState => !prevState)
     }

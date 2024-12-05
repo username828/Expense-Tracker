@@ -9,7 +9,7 @@ const initialState = {
     sortBy: 'date',
     search:'',
   },
-  budget: 0,
+  groupedExpenses:[]
 };
 
 const expenseSlice = createSlice({
@@ -38,11 +38,11 @@ const expenseSlice = createSlice({
     clearFilter: (state) => {
       state.filter = initialState.filter;
     },
-    setBudget: (state, action) => {
-        state.budget = action.payload;
-      },
+    setGroupedExpenses(state, action) {
+      state.groupedExpenses = action.payload;
+    },
   },
 });
 
-export const { setExpenses, addExpense, deleteExpense, updateExpense, setFilter, clearFilter,setBudget } = expenseSlice.actions;
+export const { setExpenses, addExpense, deleteExpense, updateExpense, setFilter, clearFilter,setGroupedExpenses } = expenseSlice.actions;
 export default expenseSlice.reducer;

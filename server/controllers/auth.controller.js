@@ -1,6 +1,7 @@
 const UserSchema=require("../models/user.model");
 const {createToken}=require("../util/Token");
 const bcrypt=require("bcryptjs");
+const jwt = require('jsonwebtoken')
 
 
 exports.signUp=async(req,res)=>{
@@ -39,6 +40,7 @@ exports.login=async (req,res)=>{
         if(!user){
           return res.json({message:'Incorrect password or name' }) 
         }
+        console.log("Password",password,"stored Password",user.password)
         const auth = await bcrypt.compare(password,user.password)
         if (!auth) {
           return res.json({message:'Incorrect password or email' }) 
@@ -52,7 +54,8 @@ exports.login=async (req,res)=>{
     return res.status(200).json({
       message: 'User logged in successfully',
       success: true,
-      token: token, // Send the token in the response JSON
+      token
+       // Send the token in the response JSON
     });
         } catch (error) {
         console.error(error);
@@ -72,3 +75,39 @@ exports.logout=async(req,res)=>{
   }
 
 }
+
+exports.changePassword = async (req, res) => {
+
+  try {
+    // Verify the JWT token
+    //const decoded = jwt.verify(token, process.env.TOKEN_KEY); // Ensure TOKEN_KEY is correctly set in your .env
+
+    console.log(req.body)
+    const { id,currentPassword, newPassword, confirmNewPassword } = req.body;
+
+    console.log("User Id:",id)
+    const user = await UserSchema.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (currentPassword && newPassword && confirmNewPassword) {
+      if (newPassword !== confirmNewPassword) {
+        return res.status(400).json({ message: 'New passwords do not match' });
+      }
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        return res.status(400).json({ message: 'Incorrect current password' });
+      }
+      user.password = await bcrypt.hash(newPassword, 12);
+      await user.save();
+    }
+    
+
+    res.status(200).json({ message: 'Password changed successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+

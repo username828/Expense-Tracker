@@ -6,10 +6,9 @@ import ExpenseSummary from "./ExpenseSummary";
 
 const ExpenseHome = () => {
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">My Expenses</h1>
-      <ExpenseFilter />
-      <ExpenseSummary />
+    <div>
+      <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 md:mb-6">My Expenses</h1>
+      <ExpenseFilter/>
       <ExpenseList />
     </div>
   );

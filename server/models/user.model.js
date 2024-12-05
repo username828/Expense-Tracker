@@ -36,9 +36,18 @@ const UserSchema = new mongoose.Schema({
 
 });
 
-UserSchema.pre("save",async function () {
-    this.password=await bcrypt.hash(this.password,12)
-})
+// UserSchema.pre("save",async function () {
+//     this.password=await bcrypt.hash(this.password,12)
+// })
+
+UserSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+      return next();
+    }
+    this.password = await bcrypt.hash(this.password, 12);
+    next();
+  });
+  
 
 // //password as virtual field
 // UserSchema.virtual('password').set(function(password){
