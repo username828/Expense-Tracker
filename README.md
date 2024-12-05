@@ -17,10 +17,15 @@ Landing page from where users can sign up and login by clicking on the links red
 ### `Dashboard`
 
 Users can select features from the sidebar which will be displayed. Features include:
-Profile
-Expenses-where can add, edit and delete expenses
-Budget Management-add budgets and view their progress
-Reports-visualize expenses in the form of charts
-PDF Generation-export expenses in pdf form
-Logout from their accounts
+### `Profile`
+### `Expenses`
+Add, edit and delete expenses
+### `Budget Management`
+Add budgets and view their progress
+### `Reports`
+Visualize expenses in the form of charts
+### `PDF Generation`
+Export expenses in pdf form
+### `Logout`
+
 
