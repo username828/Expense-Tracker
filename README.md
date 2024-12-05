@@ -21,7 +21,7 @@ Users can select features from the sidebar which will be displayed. Features inc
 ### `Expenses`
 Add, edit and delete expenses
 ### `Budget Management`
-Add budgets and view their progress
+Add budgets and view their progress. Budget overruns notified using Toastify
 ### `Reports`
 Visualize expenses in the form of charts
 ### `PDF Generation`
