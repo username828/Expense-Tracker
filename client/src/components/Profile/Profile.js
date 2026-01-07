@@ -1,39 +1,40 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const UserProfile = (props) => {
   const user = props.user;
-  const id=user._id;
+  const id = user._id;
   const [isPasswordChange, setIsPasswordChange] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handlePasswordChange = async () => {
     if (newPassword !== confirmPassword) {
-      setError('New passwords do not match');
+      setError("New passwords do not match");
       return;
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/api/change-password',{
-        id,
-        currentPassword,
-        newPassword,
-        confirmPassword,
-      },
-      
-      {withCredentials:true},
+      const response = await axios.post(
+        `${process.ENV.BASE_URL}/api/change-password`,
+        {
+          id,
+          currentPassword,
+          newPassword,
+          confirmPassword,
+        },
 
-     );
-      console.log(response.data)
+        { withCredentials: true }
+      );
+      console.log(response.data);
       setSuccess(response.data.message);
-      setError('');
+      setError("");
     } catch (error) {
-      setError(error.response.data.message || 'An error occurred');
-      setSuccess('');
+      setError(error.response.data.message || "An error occurred");
+      setSuccess("");
     }
   };
 
@@ -53,12 +54,17 @@ const UserProfile = (props) => {
         onClick={() => setIsPasswordChange(!isPasswordChange)}
         className="w-full p-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 mt-4"
       >
-        {isPasswordChange ? 'Cancel Change' : 'Change Password'}
+        {isPasswordChange ? "Cancel Change" : "Change Password"}
       </button>
 
       {isPasswordChange && (
         <div className="mt-4">
-          <label htmlFor="currentPassword" className="block text-sm font-semibold text-gray-700">Current Password</label>
+          <label
+            htmlFor="currentPassword"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Current Password
+          </label>
           <input
             type="password"
             id="currentPassword"
@@ -68,7 +74,12 @@ const UserProfile = (props) => {
             onChange={(e) => setCurrentPassword(e.target.value)}
           />
 
-          <label htmlFor="newPassword" className="block text-sm font-semibold text-gray-700 mt-4">New Password</label>
+          <label
+            htmlFor="newPassword"
+            className="block text-sm font-semibold text-gray-700 mt-4"
+          >
+            New Password
+          </label>
           <input
             type="password"
             id="newPassword"
@@ -78,7 +89,12 @@ const UserProfile = (props) => {
             onChange={(e) => setNewPassword(e.target.value)}
           />
 
-          <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 mt-4">Confirm New Password</label>
+          <label
+            htmlFor="confirmPassword"
+            className="block text-sm font-semibold text-gray-700 mt-4"
+          >
+            Confirm New Password
+          </label>
           <input
             type="password"
             id="confirmPassword"

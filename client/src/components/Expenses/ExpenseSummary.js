@@ -11,15 +11,16 @@ const ExpenseSummary = () => {
   const budgets = useSelector((state) => state.budget.budgets);
   const groupedExpenses = useSelector((state) => state.expense.groupedExpenses);
 
-  const totalExpense = expenses && expenses.length
-    ? expenses.reduce((acc, expense) => acc + expense.amount, 0)
-    : 0;
+  const totalExpense =
+    expenses && expenses.length
+      ? expenses.reduce((acc, expense) => acc + Number(expense.amount), 0)
+      : 0;
 
   useEffect(() => {
     const fetchExpensesByCategory = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/get-expense-by-category",
+          `${process.ENV.BASE_URL}/api/get-expense-by-category`,
           { withCredentials: true }
         );
         dispatch(setGroupedExpenses(response.data));
@@ -57,7 +58,9 @@ const ExpenseSummary = () => {
     <div className="p-4 bg-white shadow-md rounded-md mt-4 mb-4">
       <h2 className="text-2xl text-center font-bold mb-4">Expense Summary</h2>
       <div className="mt-4 mb-4">
-        <p className="text-xl text-center font-semibold">Total Expenses: Rs.{totalExpense}</p>
+        <p className="text-xl text-center font-semibold">
+          Total Expenses: Rs.{totalExpense}
+        </p>
       </div>
       <div>
         {budgets.length > 0 ? (

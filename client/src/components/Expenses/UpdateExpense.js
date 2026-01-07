@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateExpense } from '../../redux/ExpenseSlice';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateExpense } from "../../redux/ExpenseSlice";
+import axios from "axios";
 
 const UpdateExpense = (props) => {
-//   function closeForm(){
-//     props.onClose();
-//   }
+  //   function closeForm(){
+  //     props.onClose();
+  //   }
   const dispatch = useDispatch();
   //id passed as props otherwise expense used before initialization
-  const expense = useSelector(state =>
-    state.expense.expenses.find(exp => exp._id === props.expenseId)
+  const expense = useSelector((state) =>
+    state.expense.expenses.find((exp) => exp._id === props.expenseId)
   );
-  
+
   const [formData, setFormData] = useState(expense || {});
 
   useEffect(() => {
-    if (expense){
-        setFormData(expense)
-    };
+    if (expense) {
+      setFormData(expense);
+    }
   }, [expense]);
 
   const handleChange = (e) => {
@@ -29,13 +29,17 @@ const UpdateExpense = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`http://localhost:5000/api/update-expense/${expense._id}`, formData, { withCredentials: true });
+      const response = await axios.put(
+        `${process.ENV.BASE_URL}/api/update-expense/${expense._id}`,
+        formData,
+        { withCredentials: true }
+      );
       if (response.status === 200) {
         dispatch(updateExpense(response.data)); // Update Redux store
       }
       props.onClose();
     } catch (error) {
-      console.error('Error updating expense:', error);
+      console.error("Error updating expense:", error);
     }
   };
 
@@ -46,7 +50,12 @@ const UpdateExpense = (props) => {
     <div className="max-w-lg mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-sm font-semibold text-gray-700">Title</label>
+          <label
+            htmlFor="title"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Title
+          </label>
           <input
             type="text"
             id="title"
@@ -59,7 +68,12 @@ const UpdateExpense = (props) => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="amount" className="block text-sm font-semibold text-gray-700">Amount</label>
+          <label
+            htmlFor="amount"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Amount
+          </label>
           <input
             type="number"
             id="amount"
@@ -72,7 +86,12 @@ const UpdateExpense = (props) => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="category" className="block text-sm font-semibold text-gray-700">Category</label>
+          <label
+            htmlFor="category"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Category
+          </label>
           <input
             type="text"
             id="category"
@@ -85,7 +104,12 @@ const UpdateExpense = (props) => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-semibold text-gray-700">Description</label>
+          <label
+            htmlFor="description"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Description
+          </label>
           <textarea
             id="description"
             name="description"
@@ -97,7 +121,12 @@ const UpdateExpense = (props) => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="date" className="block text-sm font-semibold text-gray-700">Date</label>
+          <label
+            htmlFor="date"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Date
+          </label>
           <input
             type="date"
             id="date"

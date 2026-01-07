@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addExpense } from '../../redux/ExpenseSlice';
-import axios from 'axios';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addExpense } from "../../redux/ExpenseSlice";
+import axios from "axios";
 
 const AddExpense = () => {
   const dispatch = useDispatch();
   const [expense, setExpense] = useState({
-    title: '',
-    amount: '',
-    category: '',
-    description: '',
-    date: '',
+    title: "",
+    amount: "",
+    category: "",
+    description: "",
+    date: "",
   });
 
   const handleChange = (e) => {
@@ -21,12 +21,16 @@ const AddExpense = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/add-expense', expense, { withCredentials: true });
+      const response = await axios.post(
+        `${process.ENV.BASE_URL}/api/add-expense`,
+        expense,
+        { withCredentials: true }
+      );
       if (response.status === 200) {
-        dispatch(addExpense(expense));  // Update Redux store
+        dispatch(addExpense(expense)); // Update Redux store
       }
     } catch (error) {
-      console.error('Error adding expense:', error);
+      console.error("Error adding expense:", error);
     }
   };
 
@@ -35,7 +39,12 @@ const AddExpense = () => {
       <h2 className="text-3xl font-bold text-center mb-6">Add Expense</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="title" className="block text-sm font-semibold text-gray-700">Title</label>
+          <label
+            htmlFor="title"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Title
+          </label>
           <input
             type="text"
             id="title"
@@ -48,7 +57,12 @@ const AddExpense = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="amount" className="block text-sm font-semibold text-gray-700">Amount</label>
+          <label
+            htmlFor="amount"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Amount
+          </label>
           <input
             type="number"
             id="amount"
@@ -61,7 +75,12 @@ const AddExpense = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="category" className="block text-sm font-semibold text-gray-700">Category</label>
+          <label
+            htmlFor="category"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Category
+          </label>
           <input
             type="text"
             id="category"
@@ -74,7 +93,12 @@ const AddExpense = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="description" className="block text-sm font-semibold text-gray-700">Description</label>
+          <label
+            htmlFor="description"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Description
+          </label>
           <textarea
             id="description"
             name="description"
@@ -86,7 +110,12 @@ const AddExpense = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="date" className="block text-sm font-semibold text-gray-700">Date</label>
+          <label
+            htmlFor="date"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Date
+          </label>
           <input
             type="date"
             id="date"

@@ -1,44 +1,43 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [name, setUserName] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Added loading state
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(''); // Clear any previous error
+    setError(""); // Clear any previous error
     setIsLoading(true); // Set loading to true
     const userData = { name, password };
 
     try {
-      const response = await fetch('http://localhost:5000/api/login', {
-        method: 'POST',
+      const response = await fetch(`${process.ENV.BASE_URL}/api/login`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-        credentials: 'include',
+        credentials: "include",
       });
 
       const data = await response.json();
 
       if (response.ok && data.success) {
         // Ensure backend sends a "success" flag
-        navigate('/dashboard'); // Redirect to the dashboard on successful login
+        navigate("/dashboard"); // Redirect to the dashboard on successful login
       } else {
-        setError(data.message || 'Invalid username or password'); // Show error in the form
+        setError(data.message || "Invalid username or password"); // Show error in the form
       }
     } catch (err) {
-      setError('An error occurred. Please try again later.');
+      setError("An error occurred. Please try again later.");
     } finally {
       setIsLoading(false); // Reset loading state
     }
   };
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -89,7 +88,7 @@ const Login = () => {
           className="w-full bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-700 transition duration-300"
           disabled={isLoading} // Disable button when loading
         >
-          {isLoading ? 'Loading...' : 'Login'}
+          {isLoading ? "Loading..." : "Login"}
         </button>
       </form>
     </div>
